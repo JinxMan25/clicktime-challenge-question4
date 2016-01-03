@@ -1,7 +1,18 @@
 var app = angular.module("clicktime", ['ngResource', 'ui.router']);
 
-app.run(($rootScope) => {
+app.run(function($rootScope){
+  //show ui-view error
   $rootScope.$on("$stateChangeError", console.log.bind(console));
+
+  //show loading indicator
+  $rootScope.$on("$stateChangeStart", function() {
+    $rootScope.loading = true;
+  });
+
+  //hide loading indicator
+  $rootScope.$on("$stateChangeSuccess", function( ){
+    $rootScope.loading = false;
+  });
 });
 
 app.config(['$httpProvider', function($httpProvider) {
@@ -16,18 +27,18 @@ app.constant("app", {
 });
 
 
-app.controller("home", function($scope, User, $http, $resource, app, TasksFactory, JobsFactory, ClientsFactory) {
+app.controller("home", function($rootScope, $scope, User, $http, $resource, app, TasksFactory, JobsFactory, ClientsFactory) {
 
-  $("#name").html(User.user.UserName);
-  $scope.user = User.user;
-
+  $rootScope.user = User.user;
 
   TasksFactory.getTasks().then(function(data) {
     $scope.tasks = data;
   });
+
   JobsFactory.getJobs().then(function(data) {
     $scope.jobs = data;
   });
+
   ClientsFactory.getClients().then(function(data){
     $scope.clients = data;
   });

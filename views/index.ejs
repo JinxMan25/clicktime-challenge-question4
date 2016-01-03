@@ -6,8 +6,12 @@
 </head>
 
 <body ng-app="clicktime">
+  <div ng-show="loading" class="indicator-container" style="z-index:1000;">
+    <span class="helper"></span>
+    <img class="loading_indicator" src="/images/indicator_3.gif"/>
+    <br>
+  </div>
     <div id="wrapper">
-
         <!-- Navigation -->
         <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
             <!-- Brand and toggle get grouped for better mobile display -->
@@ -23,7 +27,7 @@
             <!-- Top Menu Items -->
             <ul class="nav navbar-right top-nav">
                 <li class="dropdown">
-                  <a href="#" id="name" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i><b class="caret"></b></a>
+                  <a href="#" id="name" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i><b class=""></b> {{ user.UserName }}</a>
                 </li>
             </ul>
             <div class="collapse navbar-collapse navbar-ex1-collapse">
