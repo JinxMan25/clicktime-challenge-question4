@@ -45,7 +45,31 @@ app.controller("home", function($rootScope, $scope, User, $http, $resource, app,
 });
 
 app.controller("tasks", function($rootScope, $scope, User, TasksFactory) {
-  $scope.results = TasksFactory.tasks; 
+  $scope.tasks = TasksFactory.tasks; 
+  console.log($scope.tasks);
+
+  var options = {
+    keys: ['Name']
+  }
+  var f = new Fuse(TasksFactory.tasks, options)
+
+  $("#search").bind('keyup',function(e) {
+    if (e.keyCode == 8 && $scope.search == ""){
+      $scope.tasks = TasksFactory.tasks; 
+    }
+    $scope.$apply();
+  });
+
+  $("#search").keydown(function(e){
+    if (e.keyCode == "13" && $scope.tasks.length == 1){
+      alert("YELLO");
+    }
+  });
+
+  $scope.$watch("search", function() {
+    $scope.tasks = f.search($scope.search);
+  });
+
 });
 
 app.factory("TasksFactory", function($http, $q, app, User) {

@@ -13,8 +13,12 @@
       </div>
   </div>
 <div class="bs-example" data-example-id="table-within-panel">
-  <div class="alert alert-info"><p>Click on any tasks to display a modal with the corresponding jobs and clients.</p></div>
    <div class="panel panel-default">
+        <div class="alert alert-info"><p>Click on any tasks to display a modal with the corresponding jobs and clients.</p></div>
+      <div class="panel-body">
+        <label>Search task by name</label>
+        <input id="search" class="form form-control" ng-model="search" placeholder="Enter task..."></input>
+      </div>
       <table class="table">
          <thead>
             <tr>
@@ -24,7 +28,7 @@
             </tr>
          </thead>
          <tbody>
-            <tr ng-repeat="task in results">
+            <tr ng-repeat="task in tasks">
               <td scope="row" ng-click="getJobs(task.TaskID)" style="cursor:pointer;">{{ task.Name }}</td>
               <td>{{ task.Recent }}</td>
               <td>{{ task.Active }}</td>
