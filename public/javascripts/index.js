@@ -66,11 +66,16 @@ app.controller("tasks", function($rootScope, $scope, User, TasksFactory) {
     $scope.tasks = f.search($scope.search);
   });
 
+  $scope.getJobs = function(id) {
+    
+  }
+
 });
 
 app.factory("TasksFactory", function($http, $q, app, User) {
   var o = {
-    tasks: {}
+    tasks: {},
+    task: {}
   }
 
   o.getTasks = function() {
@@ -92,7 +97,8 @@ app.factory("TasksFactory", function($http, $q, app, User) {
 
 app.factory("ClientsFactory", function($http, $q, app, User) {
   var o = {
-    clients: {}
+    clients: {},
+    client: {}
   }
 
   o.getClients = function() {
@@ -114,7 +120,8 @@ app.factory("ClientsFactory", function($http, $q, app, User) {
 
 app.factory("JobsFactory", function($http, $q, app, User) {
   var o = {
-    jobs: {}
+    jobs: {},
+    job: {}
   }
 
   o.getJobs = function() {
@@ -185,6 +192,28 @@ app.config(function($stateProvider, $urlRouterProvider) {
         getUser: ['User','TasksFactory', function(User, TasksFactory) {
           return User.getUser().then(function(data) {
             return TasksFactory.getTasks();
+          });
+        }]
+      }
+    })
+    .state('task', {
+      url: '/tasks/{task_id}',
+      controller: 'task',
+      templateUrl: 'task.html',
+      resolve: {
+        getUser: ['User','TasksFactory',"ClientsFactory","JobsFactory","stateParams", function(User, TasksFactory, ClientsFactory, JobsFactory, $stateParams) {
+          return User.getUser().then(function(data) {
+            return TasksFactory.getTasks().then(function(data) {
+
+                TasksFactory.task = _.findWhere(data, {TaskID: $stateParams.task_id });
+                return JobsFactory.getJobs().then(function(data) {
+
+                  JobsFactory.job = _.find(data, function(job){
+                    return _.contains(job.PermittedTasks, $stateParams.task_id);
+                  });
+                  return ClientsFactory.getClients();
+              });
+            });
           });
         }]
       }

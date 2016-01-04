@@ -14,22 +14,39 @@
   </div>
 <div class="bs-example" data-example-id="table-within-panel">
    <div class="panel panel-default">
-        <div class="alert alert-info"><p>Click on any tasks to display a modal with the corresponding jobs and clients.</p></div>
-      <div class="panel-body">
-        <label>Search task by name</label>
-        <input ng-keyup="keyUp($event.keyCode)" id="search" class="form form-control" ng-model="search" placeholder="Enter task..."></input>
-      </div>
       <table class="table">
          <thead>
             <tr>
-               <th>Task Name</th>
+              <th>Jobs</th>
+               <th>Number</th>
                <th>Recent</th>
                <th>Active</th>
+               <th>Billable</th>
+               <th>CanEdit</th>
             </tr>
          </thead>
          <tbody>
-            <tr ng-repeat="task in tasks">
-              <a href="#/tasks/{{ task.TaskID }}"><td scope="row" style="cursor:pointer;">{{ task.Name }}</td></a>
+            <tr ng-repeat="job in jobs">
+              <td>{{ job.Name }}</td>
+              <td>{{ job.Number }}</td>
+              <td>{{ job.Recent }}</td>
+              <td>{{ job.Active }}</td>
+              <td>{{ job.Billable }}</td>
+              <td>{{ job.CanEdit }}</td>
+            </tr>
+         </tbody>
+      </table>
+      <table class="table">
+         <thead>
+            <tr>
+              <th>Client Name</th>
+              <th>Recent</th>
+              <th>Active</th>
+            </tr>
+         </thead>
+         <tbody>
+            <tr ng-repeat="client in Clients">
+              <td scope="row" style="">{{ task.Name }}</td>
               <td>{{ task.Recent }}</td>
               <td>{{ task.Active }}</td>
             </tr>
@@ -38,5 +55,6 @@
    </div>
  </div>
 </div>
+
 
 
