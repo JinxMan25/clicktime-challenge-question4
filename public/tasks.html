@@ -12,6 +12,27 @@
           </ol>
       </div>
   </div>
+<div class="bs-example" data-example-id="table-within-panel">
+  <div class="alert alert-info"><p>Click on any tasks to display a modal with the corresponding jobs and clients.</p></div>
+   <div class="panel panel-default">
+      <table class="table">
+         <thead>
+            <tr>
+               <th>Task Name</th>
+               <th>Recent</th>
+               <th>Active</th>
+            </tr>
+         </thead>
+         <tbody>
+            <tr ng-repeat="task in results">
+              <td scope="row" ng-click="getJobs(task.TaskID)" style="cursor:pointer;">{{ task.Name }}</td>
+              <td>{{ task.Recent }}</td>
+              <td>{{ task.Active }}</td>
+            </tr>
+         </tbody>
+      </table>
+   </div>
+ </div>
 </div>
 
 

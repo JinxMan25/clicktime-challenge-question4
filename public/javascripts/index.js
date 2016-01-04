@@ -44,8 +44,8 @@ app.controller("home", function($rootScope, $scope, User, $http, $resource, app,
   });
 });
 
-app.controller("tasks", function($rootScope, $scope, User, TasksFactory){
-  console.log(TasksFactory.tasks);
+app.controller("tasks", function($rootScope, $scope, User, TasksFactory) {
+  $scope.results = TasksFactory.tasks; 
 });
 
 app.factory("TasksFactory", function($http, $q, app, User) {
