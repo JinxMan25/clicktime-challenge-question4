@@ -7,7 +7,7 @@
           </h1>
           <ol class="breadcrumb">
               <li>
-                  <i class="fa fa-dashboard"></i><a href="/">Dashboard</a>
+                <i class="fa fa-dashboard"></i><a href="/">Dashboard</a>
               </li>
           </ol>
       </div>
@@ -17,7 +17,7 @@
       <table class="table">
          <thead>
             <tr>
-              <th>Jobs</th>
+               <th>Jobs</th>
                <th>Number</th>
                <th>Recent</th>
                <th>Active</th>
@@ -46,7 +46,7 @@
          </thead>
          <tbody>
             <tr ng-repeat="client in Clients">
-              <td scope="row" style="">{{ task.Name }}</td>
+              <td>{{ task.Name }}</td>
               <td>{{ task.Recent }}</td>
               <td>{{ task.Active }}</td>
             </tr>
@@ -55,6 +55,3 @@
    </div>
  </div>
 </div>
-
-
-
