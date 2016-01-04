@@ -18,6 +18,7 @@
          <thead>
             <tr>
                <th>Jobs</th>
+               <th>Client</th>
                <th>Number</th>
                <th>Recent</th>
                <th>Active</th>
@@ -28,6 +29,7 @@
          <tbody>
             <tr ng-repeat="job in jobs">
               <td>{{ job.Name }}</td>
+              <td>{{ job.Client }}</td>
               <td>{{ job.Number }}</td>
               <td>{{ job.Recent }}</td>
               <td>{{ job.Active }}</td>

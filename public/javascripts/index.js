@@ -55,7 +55,7 @@ app.controller("tasks", function($rootScope, $scope, User, TasksFactory, $locati
 
   //Show all tasks if input search bar is empty (when user backspaces until search bar is empty), otherwise it'll show no results
   $scope.keyUp = function(e) {
-    if (e == 8 && $scope.search == ""){
+    if (e == 8 && $scope.search == "") {
       $scope.tasks = TasksFactory.tasks; 
     }
     
@@ -280,15 +280,19 @@ app.config(function($stateProvider, $urlRouterProvider) {
                   JobsFactory.job = _.filter(data, function(job) {
                     return _.contains(job.PermittedTasks, $stateParams.task_id);
                   });
+
                   var jobs = _.pluck(JobsFactory.job, "ClientID");
                   return ClientsFactory.getClients().then(function(clients){
                     ClientsFactory.client = _.filter(clients, function(client){
                       return _.contains(jobs, client.ClientID);
                     });
-                    debugger;
+
+                    JobsFactory.job.forEach(function(elem, idx, arr){
+                      var client = _.findWhere(clients, { ClientID: elem.ClientID});
+                      JobsFactory.job[idx]["Client"] = client.Name;
+                    });
                     return data;
                   });
-                  return ClientsFactory.getClients();
               });
             });
           });
