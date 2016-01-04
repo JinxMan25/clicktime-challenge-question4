@@ -1,10 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <% include ./partials/head %>
 </head>
-
 <body ng-app="clicktime">
   <div ng-show="loading" class="indicator-container" style="z-index:1000;">
     <span class="helper"></span>
@@ -47,17 +45,13 @@
                 </ul>
             </div>
         </nav>
-
         <div id="page-wrapper">
           <div ui-view></div>
         </div>
         <!-- /#page-wrapper -->
-
     </div>
     <!-- /#wrapper -->
-
     <script src="/javascripts/jquery.js"></script>
     <script src="/javascripts/bootstrap.min.js"></script>
 </body>
-
 </html>

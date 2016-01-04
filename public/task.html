@@ -36,6 +36,8 @@
             </tr>
          </tbody>
       </table>
+   </div>
+   <div class="panel panel-default">
       <table class="table">
          <thead>
             <tr>
@@ -45,13 +47,13 @@
             </tr>
          </thead>
          <tbody>
-            <tr ng-repeat="client in Clients">
-              <td>{{ task.Name }}</td>
-              <td>{{ task.Recent }}</td>
-              <td>{{ task.Active }}</td>
+            <tr ng-repeat="client in clients">
+              <td>{{ client.Name }}</td>
+              <td>{{ client.Recent }}</td>
+              <td>{{ client.Active }}</td>
             </tr>
          </tbody>
       </table>
-   </div>
+    </div>
  </div>
 </div>

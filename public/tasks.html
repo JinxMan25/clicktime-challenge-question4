@@ -16,8 +16,12 @@
    <div class="panel panel-default">
         <div class="alert alert-info"><p>Click on any tasks to display a modal with the corresponding jobs and clients.</p></div>
       <div class="panel-body">
-        <label>Search task by name</label>
-        <input ng-keyup="keyUp($event.keyCode)" id="search" class="form form-control" ng-model="search" placeholder="Enter task..."></input>
+        <div class="col-md-4">
+          <label>Search task by name</label>
+          <input ng-keyup="keyUp($event.keyCode)" id="search" class="form-control" ng-model="search" placeholder="Enter task..."></input>
+          </br>
+          <button ng-show="enter" ng-click="goToTask()" class="btn btn-success">Press Enter</button>
+        </div>
       </div>
       <table class="table">
          <thead>
@@ -38,5 +42,3 @@
    </div>
  </div>
 </div>
-
-
