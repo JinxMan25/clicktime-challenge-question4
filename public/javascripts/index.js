@@ -31,19 +31,21 @@ app.controller("home", function($rootScope, $scope, User, $http, $resource, app,
 
   $rootScope.user = User.user;
 
-  TasksFactory.getTasks().then(function(data) {
+  TasksFactory.getTasks(User.user.CompanyID, User.user.UserID).then(function(data) {
     $scope.tasks = data;
   });
 
   JobsFactory.getJobs().then(function(data) {
-    $scope.jobs = data;
+    $scope.jobs = JobsFactory.jobs;
   });
 
   ClientsFactory.getClients().then(function(data){
     $scope.clients = data;
   });
+});
 
-  
+app.controller("tasks", function($rootScope, $scope, User, TasksFactory){
+  console.log(TasksFactory.tasks);
 });
 
 app.factory("TasksFactory", function($http, $q, app, User) {
@@ -54,13 +56,14 @@ app.factory("TasksFactory", function($http, $q, app, User) {
   o.getTasks = function() {
     var deferred = $q.defer();
 
-    $http.jsonp(app.BASE_URL + "/Companies/" + User.user.CompanyID + "/Users/" + User.user.UserID + '/Tasks/?callback=JSON_CALLBACK')
-      .success(function(data) {
-        o.tasks = data;
-        deferred.resolve(data);
-      }).error(function(err) {
-        deferred.reject(err);
-      });
+    $.ajax(app.BASE_URL + "/Companies/" + User.user.CompanyID + "/Users/" + User.user.UserID + '/Tasks', {
+        dataType:'jsonp',
+        success: function(response) { 
+          o.tasks = response;
+          deferred.resolve(response);
+        }
+    });
+
     return deferred.promise;
   }
 
@@ -75,13 +78,14 @@ app.factory("ClientsFactory", function($http, $q, app, User) {
   o.getClients = function() {
     var deferred = $q.defer();
 
-    $http.jsonp(app.BASE_URL + "/Companies/" + User.user.CompanyID + "/Users/" + User.user.UserID + '/Clients/?callback=JSON_CALLBACK')
-      .success(function(data) {
-        o.clients = data;
-        deferred.resolve(data);
-      }).error(function(err) {
-        deferred.reject(err);
-      });
+    $.ajax(app.BASE_URL + "/Companies/" + User.user.CompanyID + "/Users/" + User.user.UserID + '/Clients', {
+        dataType:'jsonp',
+        success: function(response) { 
+          o.clients = response;
+          deferred.resolve(response);
+        }
+    });
+
     return deferred.promise;
   }
 
@@ -96,14 +100,19 @@ app.factory("JobsFactory", function($http, $q, app, User) {
   o.getJobs = function() {
     var deferred = $q.defer();
 
-    $http.jsonp(app.BASE_URL + "/Companies/" + User.user.CompanyID + "/Users/" + User.user.UserID + '/Jobs/?withChildIDs=true&callback=JSON_CALLBACK')
-      .success(function(data) {
-        o.jobs = data;
-        deferred.resolve(data);
-      }).error(function(err) {
-        debugger;
-        deferred.reject(err);
-      });
+    $.ajax(app.BASE_URL + "/Companies/" + User.user.CompanyID + "/Users/" + User.user.UserID + '/Jobs/?withChildIDs=true&callback=JSON_CALLBACK', {
+        dataType:'jsonp',
+        success: function(response) { 
+
+          o.jobs = response.map(function(job) {
+            job["PermittedTasks"] = job["PermittedTasks"].split(",");
+            return job;
+          });
+
+          deferred.resolve(response);
+        }
+    });
+
     return deferred.promise;
   }
 
@@ -122,7 +131,6 @@ app.factory("User", function($http, $q, $timeout, app) {
     $.ajax(app.BASE_URL + '/session', {
         dataType:'jsonp',
         success: function(response) { 
-          console.log(response);
           o.user = response;
           deferred.resolve(response);
         }
@@ -154,7 +162,10 @@ app.config(function($stateProvider, $urlRouterProvider) {
       controller: 'tasks',
       templateUrl: 'tasks.html',
       resolve: {
-        getPromise: ['TasksFactory', 'User', function(TasksFactory, User) {
+        getUser: ['User','TasksFactory', function(User, TasksFactory) {
+          return User.getUser().then(function(data) {
+            return TasksFactory.getTasks();
+          });
         }]
       }
     });
