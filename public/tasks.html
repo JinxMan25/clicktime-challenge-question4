@@ -29,7 +29,7 @@
          </thead>
          <tbody>
             <tr ng-repeat="task in tasks">
-              <a href="#/tasks/{{ task.TaskID }}"><td scope="row" style="cursor:pointer;">{{ task.Name }}</td></a>
+              <td scope="row" style="cursor:pointer;"><a href="#/tasks/{{task.TaskID }}">{{ task.Name }}</a></td>
               <td>{{ task.Recent }}</td>
               <td>{{ task.Active }}</td>
             </tr>

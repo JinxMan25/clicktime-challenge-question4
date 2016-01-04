@@ -72,6 +72,9 @@ app.controller("tasks", function($rootScope, $scope, User, TasksFactory) {
 
 });
 
+app.controller("task", function($scope, $stateParams, User, TasksFactory, ClientsFactory, JobsFactory){
+});
+
 app.factory("TasksFactory", function($http, $q, app, User) {
   var o = {
     tasks: {},
@@ -201,14 +204,14 @@ app.config(function($stateProvider, $urlRouterProvider) {
       controller: 'task',
       templateUrl: 'task.html',
       resolve: {
-        getUser: ['User','TasksFactory',"ClientsFactory","JobsFactory","stateParams", function(User, TasksFactory, ClientsFactory, JobsFactory, $stateParams) {
+        getUser: ['User','TasksFactory',"ClientsFactory","JobsFactory","$stateParams", function(User, TasksFactory, ClientsFactory, JobsFactory, $stateParams) {
           return User.getUser().then(function(data) {
             return TasksFactory.getTasks().then(function(data) {
 
                 TasksFactory.task = _.findWhere(data, {TaskID: $stateParams.task_id });
                 return JobsFactory.getJobs().then(function(data) {
 
-                  JobsFactory.job = _.find(data, function(job){
+                  JobsFactory.job = _.find(data, function(job) {
                     return _.contains(job.PermittedTasks, $stateParams.task_id);
                   });
                   return ClientsFactory.getClients();
