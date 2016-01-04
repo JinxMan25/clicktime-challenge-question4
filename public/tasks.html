@@ -17,7 +17,7 @@
         <div class="alert alert-info"><p>Click on any tasks to display a modal with the corresponding jobs and clients.</p></div>
       <div class="panel-body">
         <label>Search task by name</label>
-        <input id="search" class="form form-control" ng-model="search" placeholder="Enter task..."></input>
+        <input ng-keyup="keyUp($event.keyCode)" id="search" class="form form-control" ng-model="search" placeholder="Enter task..."></input>
       </div>
       <table class="table">
          <thead>

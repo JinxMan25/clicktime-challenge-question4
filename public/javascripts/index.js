@@ -53,18 +53,14 @@ app.controller("tasks", function($rootScope, $scope, User, TasksFactory) {
   }
   var f = new Fuse(TasksFactory.tasks, options)
 
-  $("#search").bind('keyup',function(e) {
-    if (e.keyCode == 8 && $scope.search == ""){
+  $scope.keyUp = function(e){
+    if (e == 8 && $scope.search == ""){
       $scope.tasks = TasksFactory.tasks; 
     }
-    $scope.$apply();
-  });
-
-  $("#search").keydown(function(e){
-    if (e.keyCode == "13" && $scope.tasks.length == 1){
+    if (e == 13 && $scope.tasks.length == 1){
       alert("YELLO");
     }
-  });
+  }
 
   $scope.$watch("search", function() {
     $scope.tasks = f.search($scope.search);
