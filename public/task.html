@@ -7,13 +7,24 @@
           </h1>
           <ol class="breadcrumb">
               <li>
-                <i class="fa fa-dashboard"></i><a href="#/">Dashboard</a>
+                <i class="fa fa-dashboard"></i><a href="#/"> Dashboard</a>
+              </li>
+              <li>
+                <i class="fa fa-tasks"></i><a href="#/tasks"> Tasks</a>
+              </li>
+              <li>
+                <i class=""></i> {{ task.Name }}
               </li>
           </ol>
       </div>
   </div>
 <div class="bs-example" data-example-id="table-within-panel">
    <div class="panel panel-default">
+      <div class="panel-body">
+        <div class="col-md-4">
+          <h4>Jobs Associated with '{{ task.Name }}' </h4>
+        </div>
+      </div>
       <table class="table">
          <thead>
             <tr>
@@ -40,6 +51,11 @@
       </table>
    </div>
    <div class="panel panel-default">
+      <div class="panel-body">
+        <div class="col-md-4">
+          <h4>All clients</h4>
+        </div>
+      </div>
       <table class="table">
          <thead>
             <tr>

@@ -84,10 +84,13 @@ app.controller("tasks", function($rootScope, $scope, User, TasksFactory, $locati
 //Controller for /tasks/:task_id route
 //Shows all the jobs and clients pertaning to task_id
 app.controller("task", function($scope, $stateParams, User, TasksFactory, ClientsFactory, JobsFactory, local){
-  //This hasn't been tested but these are the dataset pertaning to a particular task. 
-
+  $scope.task = TasksFactory.task;
   $scope.jobs = JobsFactory.job;
   $scope.clients = ClientsFactory.client;
+});
+
+app.controller("jobs", function($scope, JobsFactory){
+  $scope.jobs = JobsFactory.jobs;
 });
 
 //Tasks factory that stores all tasks for the user and one more task for the /tasks/:task_id route
@@ -295,6 +298,18 @@ app.config(function($stateProvider, $urlRouterProvider) {
                   });
               });
             });
+          });
+        }]
+      }
+    })
+  .state('jobs', {    
+      url: '/jobs',
+      controller: 'jobs',
+      templateUrl: 'jobs.html',
+      resolve: {
+        getUser: ['User','JobsFactory', function(User, JobsFactory) {   
+          return User.getUser().then(function(data) {
+            return JobsFactory.getJobs();
           });
         }]
       }
