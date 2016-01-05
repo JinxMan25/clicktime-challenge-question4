@@ -29,7 +29,7 @@ app.controller("home", function($rootScope, $scope, User, $http, $resource, app,
 
   $rootScope.user = User.user;
 
-  TasksFactory.getTasks(User.user.CompanyID, User.user.UserID).then(function(data) {
+  TasksFactory.getTasks().then(function(data) {
     $scope.tasks = data;
   });
 
@@ -104,6 +104,11 @@ app.factory("TasksFactory", function($http, $q, app, User, local) {
   o.getTasks = function() {
     var deferred = $q.defer();
 
+    if (!_.isEmpty(o.tasks)) {
+      deferred.resolve(o.tasks);
+      return deferred.promise;
+    }
+
     $.ajax(app.BASE_URL + "/Companies/" + User.user.CompanyID + "/Users/" + User.user.UserID + '/Tasks', {
         dataType:'jsonp',
         timeout: 100,
@@ -133,6 +138,11 @@ app.factory("ClientsFactory", function($http, $q, app, User, local) {
 
   o.getClients = function() {
     var deferred = $q.defer();
+
+    if (!_.isEmpty(o.clients)) {
+      deferred.resolve(o.clients);
+      return deferred.promise;
+    }
 
     $.ajax(app.BASE_URL + "/Companies/" + User.user.CompanyID + "/Users/" + User.user.UserID + '/Clients', {
         dataType:'jsonp',
@@ -184,6 +194,11 @@ app.factory("JobsFactory", function($http, $q, app, User, local) {
   o.getJobs = function() {
     var deferred = $q.defer();
 
+    if (!_.isEmpty(o.jobs)) {
+      deferred.resolve(o.jobs);
+      return deferred.promise;
+    }
+
     $.ajax(app.BASE_URL + "/Companies/" + User.user.CompanyID + "/Users/" + User.user.UserID + '/Jobs/?withChildIDs=true&callback=JSON_CALLBACK', {
         dataType:'jsonp',
         timeout: 100,
@@ -217,6 +232,11 @@ app.factory("User", function($http, $q, $timeout, app, local) {
 
   o.getUser = function() {
     var deferred = $q.defer();
+
+    if (!_.isEmpty(o.user)) {
+      deferred.resolve(o.user);
+      return deferred.promise;
+    }
 
     //Promise not working with $http.jsonp(...), so resorting to $.ajax
     $.ajax({
